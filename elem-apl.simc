@@ -1,0 +1,235 @@
+# Custom APL
+ 
+# Executed before combat begins. Accepts non-harmful actions only.
+actions.precombat="flask"
+actions.precombat+="/food"
+actions.precombat+="/augmentation"
+actions.precombat+="/earth_elemental,if=!talent.primal_elementalist.enabled"
+# Use Stormkeeper precombat unless some adds will spawn soon.
+actions.precombat+="/stormkeeper,if=talent.stormkeeper.enabled&(raid_event.adds.count<3|raid_event.adds.in>50)"
+# Precasts Fire Elemental -> Elemental Blast
+actions.precombat+="/fire_elemental"
+actions.precombat+="/elemental_blast,if=talent.elemental_blast.enabled&spell_targets.chain_lightning<3"
+actions.precombat+="/lava_burst,if=!talent.elemental_blast.enabled&spell_targets.chain_lightning<3|buff.stormkeeper.up"
+actions.precombat+="/chain_lightning,if=!talent.elemental_blast.enabled&spell_targets.chain_lightning>=3&!buff.stormkeeper.up"
+# Snapshot raid buffed stats before combat begins and pre-potting is done.
+actions.precombat+="/snapshot_stats"
+actions.precombat+="/potion"
+ 
+# Executed every time the actor is available.
+actions="spiritwalkers_grace,moving=1,if=movement.distance>6"
+# Interrupt of casts.
+actions+="/wind_shear"
+actions+="/potion"
+actions+="/use_items"
+# Upkeep Flame Shock as long as you're not in a Storm Elemental Window (here for non-EB openers)
+actions+="/flame_shock,if=(!talent.elemental_blast.enabled)&!ticking&!pet.storm_elemental.active&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled|runeforge.skybreakers_fiery_demise.equipped)"
+# Get PWave out as long as you're not in a Storm Elemental Window (always with Emeni, no clue on other soulbinds but it's mastery so probably not)
+actions+="/primordial_wave,target_if=min:dot.flame_shock.remains,cycle_targets=1,if=!buff.primordial_wave.up&(!pet.storm_elemental.active|spell_targets.chain_lightning<3&buff.wind_gust.stack<20|soulbind.lead_by_example.enabled)&(spell_targets.chain_lightning<5|talent.master_of_the_elements.enabled|runeforge.skybreakers_fiery_demise.equipped|soulbind.lead_by_example.enabled)"
+# Upkeep Flame Shock as long as you're not in a Storm Elemental Window
+actions+="/flame_shock,if=!ticking&(!pet.storm_elemental.active|spell_targets.chain_lightning<3&buff.wind_gust.stack<20)&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled|runeforge.skybreakers_fiery_demise.equipped)"
+actions+="/fire_elemental"
+actions+="/blood_fury,if=!talent.ascendance.enabled|buff.ascendance.up|cooldown.ascendance.remains>50"
+actions+="/berserking,if=!talent.ascendance.enabled|buff.ascendance.up"
+actions+="/fireblood,if=!talent.ascendance.enabled|buff.ascendance.up|cooldown.ascendance.remains>50"
+actions+="/ancestral_call,if=!talent.ascendance.enabled|buff.ascendance.up|cooldown.ascendance.remains>50"
+actions+="/bag_of_tricks,if=!talent.ascendance.enabled|!buff.ascendance.up"
+actions+="/vesper_totem,if=covenant.kyrian"
+actions+="/fae_transfusion,if=covenant.night_fae&(!talent.master_of_the_elements.enabled|buff.master_of_the_elements.up)&spell_targets.chain_lightning<3"
+actions+="/run_action_list,name=aoe,if=active_enemies>2&(spell_targets.chain_lightning>2|spell_targets.lava_beam>2)"
+actions+="/run_action_list,name=single_target,if=!talent.storm_elemental.enabled&active_enemies<=2"
+actions+="/run_action_list,name=se_single_target,if=talent.storm_elemental.enabled&active_enemies<=2"
+ 
+# 3+ Enemy 
+
+# Get Storm Elemental up
+actions.aoe="storm_elemental"
+# Echo your EQs for max damage
+actions.aoe+="/earthquake,if=buff.echoing_shock.up"
+# Chain Harvest is high priority in AOE
+actions.aoe+="/chain_harvest"
+# Cast Stormkeeper on cooldown
+actions.aoe+="/stormkeeper,if=talent.stormkeeper.enabled"
+# Maintain 2 Flame Shocks in 3t AOE (getting a third one out via PWave for those burst windows) and 1 in 4t+ outside of Storm Elemental windows
+actions.aoe+="/flame_shock,if=(active_dot.flame_shock<2&active_enemies<=3&!pet.storm_elemental.active|active_dot.flame_shock<1&active_enemies>=4&!pet.storm_elemental.active&talent.master_of_the_elements.enabled)|(runeforge.skybreakers_fiery_demise.equipped&!pet.storm_elemental.active),target_if=refreshable"
+# Making sure you have 1 Flame Shock out when Storm Elemental isn't
+actions.aoe+="/flame_shock,if=!active_dot.flame_shock&!pet.storm_elemental.active&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled|runeforge.skybreakers_fiery_demise.equipped)"
+# Echo your Earthquakes, making sure to hold when you have EoGS so you don't waste maelstrom
+actions.aoe+="/echoing_shock,if=talent.echoing_shock.enabled&maelstrom>=60&(runeforge.echoes_of_great_sundering.equipped&buff.echoes_of_great_sundering.up|!runeforge.echoes_of_great_sundering.equipped)"
+# Ascendence on cooldown
+actions.aoe+="/ascendance,if=talent.ascendance.enabled&(!pet.storm_elemental.active)&(!talent.icefury.enabled|!buff.icefury.up&!cooldown.icefury.up)"
+# Liquid Magma Totem on cooldown
+actions.aoe+="/liquid_magma_totem,if=talent.liquid_magma_totem.enabled"
+# Forcing Chain Lightning filler at 3t
+actions.aoe+="/chain_lightning,if=spell_targets.chain_lightning<4&buff.master_of_the_elements.up&maelstrom<50"
+# Earth Shock to trigger EoGS
+actions.aoe+="/earth_shock,if=runeforge.echoes_of_great_sundering.equipped&!buff.echoes_of_great_sundering.up"
+# Lava Burst Below 4 targets when Storm Elemental is not up
+actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&(buff.lava_surge.up&!buff.master_of_the_elements.up)"
+# Try to game Earthquake with Master of the Elements buff when fighting 3 targets. Don't overcap Maelstrom!
+actions.aoe+="/earthquake,if=spell_targets.chain_lightning>=2&!runeforge.echoes_of_great_sundering.equipped&(talent.master_of_the_elements.enabled&maelstrom>=50&!buff.master_of_the_elements.up)"
+# Lava Burst with PWave up and a Lava Surge
+actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=buff.lava_surge.up&buff.primordial_wave.up"
+# Lava Burst with 50+ mael and no MotE buff and the next cast would be EQ for 3 targets with Skybreakers Fiery
+actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&runeforge.skybreakers_fiery_demise.equipped&buff.lava_surge.up&talent.master_of_the_elements.enabled&!buff.master_of_the_elements.up&maelstrom>=50"
+# Lava Burst with 50+ mael and no MotE buff and the next cast would be EoGS EQ or <4 targets for normal EQ
+actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=(spell_targets.chain_lightning<4&runeforge.skybreakers_fiery_demise.equipped&talent.master_of_the_elements.enabled)|(talent.master_of_the_elements.enabled&maelstrom>=50&!buff.master_of_the_elements.up&(!runeforge.echoes_of_great_sundering.equipped|buff.echoes_of_great_sundering.up)&!runeforge.skybreakers_fiery_demise.equipped)"
+# Lava Burst to MoTE EQ at 4 targets
+actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning=4&runeforge.skybreakers_fiery_demise.equipped&buff.lava_surge.up&talent.master_of_the_elements.enabled&!buff.master_of_the_elements.up&maelstrom>=50"
+# Try to game Earthquake with Master of the Elements buff when fighting 3 targets. Don't overcap Maelstrom!
+actions.aoe+="/earthquake,if=spell_targets.chain_lightning>=2"
+# Make sure you don't lose a Stormkeeper buff.
+actions.aoe+="/chain_lightning,if=buff.stormkeeper.remains<3*gcd*buff.stormkeeper.stack"
+# Only cast Lava Burst on three targets if it is an instant and Storm Elemental is NOT active.
+actions.aoe+="/lava_burst,if=buff.lava_surge.up&spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&dot.flame_shock.ticking"
+# Use Elemental Blast against up to 3 targets as long as Storm Elemental is not active.
+actions.aoe+="/elemental_blast,if=talent.elemental_blast.enabled&spell_targets.chain_lightning<5&(!pet.storm_elemental.active)"
+# Lava Beam filler under Ascendence
+actions.aoe+="/lava_beam,if=talent.ascendance.enabled"
+# Chain Lightning Filler
+actions.aoe+="/chain_lightning"
+# Move with Lava Surge
+actions.aoe+="/lava_burst,moving=1,if=buff.lava_surge.up&cooldown_react"
+# Move with Flame Shock refresh
+actions.aoe+="/flame_shock,moving=1,target_if=refreshable"
+# Move with Frost Shock
+actions.aoe+="/frost_shock,moving=1"
+ 
+ 
+ 
+ 
+# 1-2 Targets
+ 
+# Cast Lightning Bolt in order to not waste Stormkeeper stacks
+actions.single_target="lightning_bolt,if=(buff.stormkeeper.remains<1.1*gcd*buff.stormkeeper.stack)"
+# Cast Frost Shock in order to not waste Icefury stacks
+actions.single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&buff.icefury.remains<1.1*gcd*buff.icefury.stack"
+# Get Flameshock ticking if it is not up
+actions.single_target+="/flame_shock,target_if=(!ticking|dot.flame_shock.remains<=gcd|talent.ascendance.enabled&dot.flame_shock.remains<(cooldown.ascendance.remains+buff.ascendance.duration)&cooldown.ascendance.remains<4)&(buff.lava_surge.up|!buff.bloodlust.up)"
+# Get all the Flame Shock up for PWave
+actions.single_target+="/flame_shock,if=buff.primordial_wave.up,target_if=min:dot.flame_shock.remains,cycle_targets=1,target_if=refreshable"
+# Cast Ascendence on cooldown
+actions.single_target+="/ascendance,if=talent.ascendance.enabled&(time>=60|buff.bloodlust.up)&(cooldown.lava_burst.remains>0)&(!talent.icefury.enabled|!buff.icefury.up&!cooldown.icefury.up)"
+# Cast Lava Burst on Lava Surge
+actions.single_target+="/lava_burst,if=buff.lava_surge.up&(runeforge.windspeakers_lava_resurgence.equipped|!buff.master_of_the_elements.up&talent.master_of_the_elements.enabled)"
+# Cast Elemental Blast on cooldown if you won't overcap
+actions.single_target+="/elemental_blast,if=talent.elemental_blast.enabled&(maelstrom<70)"
+# Cast Stormkeeper on cooldown
+actions.single_target+="/stormkeeper,if=talent.stormkeeper.enabled&(raid_event.adds.count<3|raid_event.adds.in>50)&(maelstrom<44)"
+# Cast Echoing Shock on cooldown if you have a charge of Lava Burst or one is about to come off of cooldown
+actions.single_target+="/echoing_shock,if=talent.echoing_shock.enabled&cooldown.lava_burst.remains<=gcd"
+# Cast Lava Burst if you just cast Echoing Shock
+actions.single_target+="/lava_burst,if=talent.echoing_shock.enabled&buff.echoing_shock.up"
+# Cast Liquid Magma Totem on cooldown
+actions.single_target+="/liquid_magma_totem,if=talent.liquid_magma_totem.enabled"
+# Cast Lightning Bolt with Stormkeeper charges and Master of the Elements
+actions.single_target+="/lightning_bolt,if=buff.stormkeeper.up&buff.master_of_the_elements.up&maelstrom<60"
+# Cast EoGS EQ with either MotE or to avoid overcap
+actions.single_target+="/earthquake,if=buff.echoes_of_great_sundering.up&(talent.master_of_the_elements.enabled&(buff.master_of_the_elements.up|cooldown.lava_burst.remains>0&maelstrom>=92|spell_targets.chain_lightning<2&buff.stormkeeper.up&cooldown.lava_burst.remains<=gcd)|!talent.master_of_the_elements.enabled|cooldown.elemental_blast.remains<=1.1*gcd*2)"
+# Cast EQ at 2+ enemies with either MotE or to avoid overcap
+actions.single_target+="/earthquake,if=spell_targets.chain_lightning>1&!dot.flame_shock.refreshable&!runeforge.echoes_of_great_sundering.equipped&(!talent.master_of_the_elements.enabled|buff.master_of_the_elements.up|cooldown.lava_burst.remains>0&maelstrom>=92)"
+# Cast Lava Surge Lava Burst
+actions.single_target+="/lava_burst,if=cooldown_react&(!buff.master_of_the_elements.up&buff.icefury.up)"
+# Empty Lava Burst Charges before Earth Shock
+actions.single_target+="/lava_burst,if=cooldown_react&charges>talent.echo_of_the_elements.enabled&!buff.icefury.up"
+# MotE Your Earth Shock
+actions.single_target+="/lava_burst,if=talent.echo_of_the_elements.enabled&!buff.master_of_the_elements.up&maelstrom>=50&!buff.echoes_of_great_sundering.up"
+# Cast Earth Shock with either Master of the Elements or to avoid capping Maelstrom or to avoid wasting a Master of the Elements buff that could go on a Stormkeeper or just at 60 without Master of the Elements or Elemental Blast is 2 GCDs away
+actions.single_target+="/earth_shock,if=(runeforge.echoes_of_great_sundering.equipped|spell_targets.chain_lightning<2)&(talent.master_of_the_elements.enabled&!buff.echoes_of_great_sundering.up&(buff.master_of_the_elements.up|maelstrom>=92|spell_targets.chain_lightning<2&buff.stormkeeper.up&cooldown.lava_burst.remains<=gcd)|!talent.master_of_the_elements.enabled|cooldown.elemental_blast.remains<=1.1*gcd*2)"
+# Cast Frost Shock under Icefury and Master of the Elements buffs
+actions.single_target+="/frost_shock,if=talent.icefury.enabled&talent.master_of_the_elements.enabled&buff.icefury.up&buff.master_of_the_elements.up"
+# Cast Lava Burst under Ascendence
+actions.single_target+="/lava_burst,if=buff.ascendance.up"
+# Cast Lava Surge Lava Burst without Master of the Elements
+actions.single_target+="/lava_burst,if=cooldown_react&!talent.master_of_the_elements.enabled"
+# Cast Icefury on cooldown when it won't overcap and you have no more Lava Bursts
+actions.single_target+="/icefury,if=talent.icefury.enabled&!(maelstrom>35&cooldown.lava_burst.remains<=0)"
+# Cast Frost Shock with Icefury buff
+actions.single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&(buff.icefury.remains<gcd*4*buff.icefury.stack|buff.stormkeeper.up|!talent.master_of_the_elements.enabled)"
+# Cast Lava Burst
+actions.single_target+="/lava_burst"
+# Cast Flameshock in pandemic range
+actions.single_target+="/flame_shock,target_if=refreshable"
+# Cast Frost Shock to trigger Elemental Equilibrium
+actions.single_target+="/frost_shock,if=runeforge.elemental_equilibrium.equipped&!buff.elemental_equilibrium_debuff.up&!talent.elemental_blast.enabled&!talent.echoing_shock.enabled"
+# Cast Chain Harvest on cooldown
+actions.single_target+="/chain_harvest"
+# Cast Static Discharge on cooldown
+actions.single_target+="/static_discharge,if=talent.static_discharge.enabled"
+# Cast Earth Elemental
+actions.single_target+="/earth_elemental,if=!talent.primal_elementalist.enabled|!pet.fire_elemental.active"
+# Cast Chain Lightning at 2t
+actions.single_target+="/chain_lightning,if=spell_targets.chain_lightning>1"
+# Cast Lightning Bolt
+actions.single_target+="/lightning_bolt"
+# Cast Flameshock in pandemic range if you need to move
+actions.single_target+="/flame_shock,moving=1,target_if=refreshable"
+# Cast Flameshock on longer movement
+actions.single_target+="/flame_shock,moving=1,if=movement.distance>6"
+# Cast Frost Shock on movement
+actions.single_target+="/frost_shock,moving=1"
+ 
+
+ 
+# 1-2t Storm Elemental
+
+# Get Storm Elemental up
+actions.se_single_target="storm_elemental" 
+# Cast Frost Shock in order to not waste Icefury stacks
+actions.se_single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&buff.icefury.remains<1.1*gcd*buff.icefury.stack&buff.wind_gust.stack<18"
+# Upkeep Flame Shock outside of Bloodlust
+actions.se_single_target+="/flame_shock,target_if=(remains<=gcd)&(buff.lava_surge.up|!buff.bloodlust.up)"
+# Cast Frost Shock in order to not waste Icefury stacks
+actions.single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&buff.icefury.remains<1.1*gcd*buff.icefury.stack"
+# Cast Elemental Blast on cooldown
+actions.se_single_target+="/elemental_blast,if=talent.elemental_blast.enabled"
+# Cast Stormkeeper on cooldown
+actions.se_single_target+="/stormkeeper,if=talent.stormkeeper.enabled"
+# Cast Echoing Shock on cooldown to echo LvB or EQ
+actions.se_single_target+="/echoing_shock,if=talent.echoing_shock.enabled&cooldown.lava_burst.remains<=gcd&spell_targets.chain_lightning<2|maelstrom>=60&spell_targets.chain_lightning>=2&(!runeforge.echoes_of_great_sundering.equipped|buff.echoes_of_great_sundering.up)|spell_targets.chain_lightning<2&buff.wind_gust.stack>=18&(!runeforge.echoes_of_great_sundering.equipped|buff.echoes_of_great_sundering.up)&maelstrom>=60"
+# Cast Lava Burst on Surge or cooldown when Wind Gust <18
+actions.se_single_target+="/lava_burst,if=(buff.wind_gust.stack<18&!buff.bloodlust.up)|buff.lava_surge.up"
+# Spend PWave
+actions.se_single_target+="/lava_burst,target_if=dot.flame_shock.remains,if=buff.lava_surge.up&buff.primordial_wave.up"
+# Echo your Lava Bursts on 1t
+actions.se_single_target+="/lava_burst,if=talent.echoing_shock.enabled&buff.echoing_shock.up&spell_targets.chain_lightning<2"
+# Echo your Earthquakes on 2t
+actions.se_single_target+="/earthquake,if=talent.echoing_shock.enabled&buff.echoing_shock.up&spell_targets.chain_lightning>=2"
+# Cast Stormkeeper Lightning Bolts
+actions.se_single_target+="/lightning_bolt,if=buff.stormkeeper.up"
+# Cast EoGS EQ
+actions.se_single_target+="/earthquake,if=buff.echoes_of_great_sundering.up"
+# Cast Earth Shock at 1t or with EoGS and no buff, hold if you have lots of Wind Gust stacks until you'd overcap
+actions.se_single_target+="/earth_shock,if=spell_targets.chain_lightning<2&maelstrom>=60&(buff.wind_gust.stack<20|maelstrom>90)|(runeforge.echoes_of_great_sundering.equipped&!buff.echoes_of_great_sundering.up)"
+# Cast EQ at 2t
+actions.se_single_target+="/earthquake,if=(spell_targets.chain_lightning>1)&(!dot.flame_shock.refreshable)"
+# Cast Chain Lightning under SE + Bloodlust at 2t
+actions.se_single_target+="/chain_lightning,if=active_enemies>1&pet.storm_elemental.active&buff.bloodlust.up"
+# Cast Lightning Bolt under SE + Bloodlust at 1t
+actions.se_single_target+="/lightning_bolt,if=pet.storm_elemental.active&buff.bloodlust.up"
+# Cast Lava Burst under Ascendence
+actions.se_single_target+="/lava_burst,if=buff.ascendance.up"
+# Cast Lava Burst
+actions.se_single_target+="/lava_burst,if=cooldown_react"
+# Cast Icefury on cooldown
+actions.se_single_target+="/icefury,if=talent.icefury.enabled&!(maelstrom>75&cooldown.lava_burst.remains<=0)"
+# Cast Lava Burst
+actions.se_single_target+="/lava_burst,if=cooldown_react&charges>talent.echo_of_the_elements.enabled"
+# Spend Icefury Charges on Frost Shock
+actions.se_single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up"
+# Cast Chain Harvest
+actions.se_single_target+="/chain_harvest"
+# Cast Static Discharge
+actions.se_single_target+="/static_discharge,if=talent.static_discharge.enabled"
+# Filler Earth Elemental
+actions.se_single_target+="/earth_elemental,if=!talent.primal_elementalist.enabled|talent.primal_elementalist.enabled&(!pet.storm_elemental.active)"
+# Filler Chain Lightning at 2t
+actions.se_single_target+="/chain_lightning,if=active_enemies>1&(spell_targets.chain_lightning>1|spell_targets.lava_beam>1)"
+# Filler Lightning Bolt
+actions.se_single_target+="/lightning_bolt"
+# Flame Shock to move on refresh
+actions.se_single_target+="/flame_shock,moving=1,target_if=refreshable"
+# Flame Shock to move long distances
+actions.se_single_target+="/flame_shock,moving=1,if=movement.distance>6"
+# Frost Shock to move
+actions.se_single_target+="/frost_shock,moving=1"
