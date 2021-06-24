@@ -42,3 +42,4 @@ jobs:
         run: |
           chmod +x $GITHUB_WORKSPACE/Tests/run_tests.sh;
           docker run -v $GITHUB_WORKSPACE:/apl --name simc -t simulationcraftorg/simc sh /apl/Tests/run_tests.sh;
+          docker cp simc:/html .
