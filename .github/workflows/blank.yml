@@ -43,3 +43,8 @@ jobs:
           chmod +x $GITHUB_WORKSPACE/Tests/run_tests.sh;
           docker run -v $GITHUB_WORKSPACE:/apl --name simc -t simulationcraftorg/simc sh /apl/Tests/run_tests.sh;
           docker cp simc:/html .
+      - name: Archive html reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: html-reports
+          path: /html/
