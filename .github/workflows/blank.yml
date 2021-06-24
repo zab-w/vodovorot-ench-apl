@@ -37,3 +37,6 @@ jobs:
           
       - name: Pull simc docker
         run: docker pull simulationcraftorg/simc
+          
+      - name: Mount folder. Check content
+        run: docker run -v $GITHUB_WORKSPACE:/apl simulationcraftorg/simc ls /apl
