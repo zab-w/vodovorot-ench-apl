@@ -52,7 +52,7 @@ actions+="/run_action_list,name=se_single_target,if=talent.storm_elemental.enabl
 actions+="/run_action_list,name=skyb_aoe,if=runeforge.skybreakers_fiery_demise.equipped&active_enemies>2&(spell_targets.chain_lightning>2|spell_targets.lava_beam>2)"
 actions+="/run_action_list,name=eogs_aoe,if=runeforge.echoes_of_great_sundering.equipped&active_enemies>2&(spell_targets.chain_lightning>2|spell_targets.lava_beam>2)"
  
-# 3+ Enemy 
+# 3+ Enemy without SkyB or EoGS legendaries
 
 # Get Storm Elemental up
 actions.aoe="storm_elemental"
@@ -63,31 +63,25 @@ actions.aoe+="/chain_harvest"
 # Cast Stormkeeper on cooldown
 actions.aoe+="/stormkeeper,if=talent.stormkeeper.enabled"
 # Maintain 2 Flame Shocks in 3t AOE (getting a third one out via PWave for those burst windows) and 1 in 4t+ outside of Storm Elemental windows
-actions.aoe+="/flame_shock,if=(active_dot.flame_shock<2&active_enemies<=3&!pet.storm_elemental.active|active_dot.flame_shock<1&active_enemies>=4&!pet.storm_elemental.active&talent.master_of_the_elements.enabled)|(runeforge.skybreakers_fiery_demise.equipped&!pet.storm_elemental.active),target_if=refreshable"
+actions.aoe+="/flame_shock,if=active_dot.flame_shock<2&active_enemies<=3&!pet.storm_elemental.active|active_dot.flame_shock<1&active_enemies>=4&!pet.storm_elemental.active&talent.master_of_the_elements.enabled,target_if=refreshable"
 # Making sure you have 1 Flame Shock out when Storm Elemental isn't
-actions.aoe+="/flame_shock,if=!active_dot.flame_shock&!pet.storm_elemental.active&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled|runeforge.skybreakers_fiery_demise.equipped)"
-# Echo your Earthquakes, making sure to hold when you have EoGS so you don't waste maelstrom
-actions.aoe+="/echoing_shock,if=talent.echoing_shock.enabled&maelstrom>=60&(runeforge.echoes_of_great_sundering.equipped&buff.echoes_of_great_sundering.up|!runeforge.echoes_of_great_sundering.equipped)"
+actions.aoe+="/flame_shock,if=!active_dot.flame_shock&!pet.storm_elemental.active&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled)"
+# Echo your Earthquakes
+actions.aoe+="/echoing_shock,if=talent.echoing_shock.enabled&maelstrom>=60"
 # Ascendence on cooldown
 actions.aoe+="/ascendance,if=talent.ascendance.enabled&(!pet.storm_elemental.active)&(!talent.icefury.enabled|!buff.icefury.up&!cooldown.icefury.up)"
 # Liquid Magma Totem on cooldown
 actions.aoe+="/liquid_magma_totem,if=talent.liquid_magma_totem.enabled"
 # Forcing Chain Lightning filler at 3t
 actions.aoe+="/chain_lightning,if=spell_targets.chain_lightning<4&buff.master_of_the_elements.up&maelstrom<50"
-# Earth Shock to trigger EoGS
-actions.aoe+="/earth_shock,if=runeforge.echoes_of_great_sundering.equipped&!buff.echoes_of_great_sundering.up"
 # Lava Burst Below 4 targets when Storm Elemental is not up
 actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&(buff.lava_surge.up&!buff.master_of_the_elements.up)"
 # Try to game Earthquake with Master of the Elements buff when fighting 3 targets. Don't overcap Maelstrom!
-actions.aoe+="/earthquake,if=spell_targets.chain_lightning>=2&!runeforge.echoes_of_great_sundering.equipped&(talent.master_of_the_elements.enabled&maelstrom>=50&!buff.master_of_the_elements.up)"
+actions.aoe+="/earthquake,if=spell_targets.chain_lightning>=2&(talent.master_of_the_elements.enabled&maelstrom>=50&!buff.master_of_the_elements.up)"
 # Lava Burst with PWave up and a Lava Surge
 actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=buff.lava_surge.up&buff.primordial_wave.up"
-# Lava Burst with 50+ mael and no MotE buff and the next cast would be EQ for 3 targets with Skybreakers Fiery
-actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&runeforge.skybreakers_fiery_demise.equipped&buff.lava_surge.up&talent.master_of_the_elements.enabled&!buff.master_of_the_elements.up&maelstrom>=50"
-# Lava Burst with 50+ mael and no MotE buff and the next cast would be EoGS EQ or <4 targets for normal EQ
-actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=(spell_targets.chain_lightning<4&runeforge.skybreakers_fiery_demise.equipped&talent.master_of_the_elements.enabled)|(talent.master_of_the_elements.enabled&maelstrom>=50&!buff.master_of_the_elements.up&(!runeforge.echoes_of_great_sundering.equipped|buff.echoes_of_great_sundering.up)&!runeforge.skybreakers_fiery_demise.equipped)"
-# Lava Burst to MoTE EQ at 4 targets
-actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning=4&runeforge.skybreakers_fiery_demise.equipped&buff.lava_surge.up&talent.master_of_the_elements.enabled&!buff.master_of_the_elements.up&maelstrom>=50"
+# Lava Burst with 50+ mael and no MotE buff
+actions.aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=talent.master_of_the_elements.enabled&maelstrom>=50&!buff.master_of_the_elements.up"
 # Try to game Earthquake with Master of the Elements buff when fighting 3 targets. Don't overcap Maelstrom!
 actions.aoe+="/earthquake,if=spell_targets.chain_lightning>=2"
 # Make sure you don't lose a Stormkeeper buff.
