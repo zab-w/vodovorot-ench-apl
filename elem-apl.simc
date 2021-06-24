@@ -230,7 +230,7 @@ actions.se_single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.u
 # Upkeep Flame Shock outside of Bloodlust
 actions.se_single_target+="/flame_shock,target_if=(remains<=gcd)&(buff.lava_surge.up|!buff.bloodlust.up)"
 # Cast Frost Shock in order to not waste Icefury stacks
-actions.single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&buff.icefury.remains<1.1*gcd*buff.icefury.stack"
+actions.se_single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&buff.icefury.remains<1.1*gcd*buff.icefury.stack"
 # Cast Elemental Blast on cooldown
 actions.se_single_target+="/elemental_blast,if=talent.elemental_blast.enabled"
 # Cast Stormkeeper on cooldown
