@@ -41,5 +41,8 @@ jobs:
       - name: Run tests
         run: |
           docker run -v $GITHUB_WORKSPACE:/apl --name simc simulationcraftorg/simc
+          echo started
           docker exec simc chmod +x /apl/Tests/run_tests.sh
+          echo chmoded
           docker exec simc /apl/Tests/run_tests.sh
+          echoc started test
