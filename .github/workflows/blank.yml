@@ -39,4 +39,5 @@ jobs:
         run: docker pull simulationcraftorg/simc
           
       - name: Mount folder. Check content
-        run: docker run -v $GITHUB_WORKSPACE:/apl simulationcraftorg/simc chmod +x /apl/Tests/run_tests.sh & /apl/Tests/run_tests.sh
+      #  run: docker run -v $GITHUB_WORKSPACE:/apl simulationcraftorg/simc chmod +x /apl/Tests/run_tests.sh & /apl/Tests/run_tests.sh
+        run: docker run -v $GITHUB_WORKSPACE:/apl simulationcraftorg/simc find /apl
