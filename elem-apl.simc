@@ -23,7 +23,7 @@ actions+="/wind_shear"
 actions+="/potion"
 actions+="/use_items"
 # [Default] Upkeep Flame Shock as long as you're not in a Storm Elemental Window (here for non-EB openers)
-actions+="/flame_shock,if=(!runeforge.skybreakers_fiery_demise.equipped&!runeforge.echoes_of_great_sundering.equipped)&(!talent.elemental_blast.enabled&!ticking&!talent.storm_elemental.enabled&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled))"
+actions+="/flame_shock,if=(!runeforge.skybreakers_fiery_demise.equipped&!runeforge.echoes_of_great_sundering.equipped)&(!talent.elemental_blast.enabled&!ticking&!pet.storm_elemental.active&(spell_targets.chain_lightning<3|talent.master_of_the_elements.enabled))"
 # [EoGS] Upkeep Flame Shock below 5 targets with MotE
 actions+="/flame_shock,if=runeforge.echoes_of_great_sundering.equipped&(!talent.elemental_blast.enabled&!ticking&talent.master_of_the_elements.enabled&spell_targets.chain_lightning<=4)"
 # [SkyB] Upkeep Flame Shock as long as you're not in a Storm Elemental Window with Skybreakers Fiery
@@ -33,7 +33,7 @@ actions+="/primordial_wave,target_if=min:dot.flame_shock.remains,cycle_targets=1
 # [SkyB] Get PWave out as long as you're not in a Storm Elemental Window (always with Emeni, no clue on other soulbinds but it's mastery so probably not) with Skybreakers Fiery
 actions+="/primordial_wave,target_if=min:dot.flame_shock.remains,cycle_targets=1,if=runeforge.skybreakers_fiery_demise.equipped&!buff.primordial_wave.up&(!pet.storm_elemental.active|spell_targets.chain_lightning<3&buff.wind_gust.stack<20|soulbind.lead_by_example.enabled)"
 # [Default] Upkeep Flame Shock as long as you're not in a Storm Elemental Window
-actions+="/flame_shock,if=(!runeforge.skybreakers_fiery_demise.equipped&!runeforge.echoes_of_great_sundering.equipped)&!ticking&!talent.storm_elemental.enabled&(spell_targets.chain_lightning<4|talent.master_of_the_elements.enabled)&!(runeforge.echoes_of_great_sundering.equipped&spell_targets.chain_lightning>4)"
+actions+="/flame_shock,if=(!runeforge.skybreakers_fiery_demise.equipped&!runeforge.echoes_of_great_sundering.equipped)&!ticking&(!pet.storm_elemental.active|spell_targets.chain_lightning<3&buff.wind_gust.stack<20)&(spell_targets.chain_lightning<3|talent.master_of_the_elements.enabled)"
 # [EoGS] Upkeep Flame Shock below 5 targets with MotE
 actions+="/flame_shock,if=runeforge.echoes_of_great_sundering.equipped&!ticking&talent.master_of_the_elements.enabled&spell_targets.chain_lightning<=4"
 # [SkyB] Upkeep Flame Shock as long as you're not in a Storm Elemental Window with Skybreakers Fiery
@@ -112,7 +112,7 @@ actions.eogs_aoe+="/chain_harvest"
 # Cast Stormkeeper on cooldown
 actions.eogs_aoe+="/stormkeeper,if=talent.stormkeeper.enabled"
 # Maintain 2 Flame Shocks in 3t AOE (getting a third one out via PWave for those burst windows) and 1 in 4t with MotE talent
-actions.eogs_aoe+="/flame_shock,if=talent.master_of_the_elements.enabled&(active_dot.flame_shock<2&active_enemies<=3|active_dot.flame_shock<1&active_enemies=4),target_if=refreshable"
+actions.eogs_aoe+="/flame_shock,if=talent.master_of_the_elements.enabled&(active_dot.flame_shock<2&active_enemies<=3&cooldown.primordial_wave.remains<16&covenant.necrolord|active_dot.flame_shock<1&active_enemies=4),target_if=refreshable"
 # Making sure you have 1 Flame Shock with MotE talent below 5t
 actions.eogs_aoe+="/flame_shock,if=!active_dot.flame_shock&talent.master_of_the_elements.enabled&active_enemies<5"
 # Echo your Earthquakes, making sure to hold when you have EoGS so you don't waste maelstrom
@@ -125,8 +125,8 @@ actions.eogs_aoe+="/liquid_magma_totem,if=talent.liquid_magma_totem.enabled"
 actions.eogs_aoe+="/chain_lightning,if=spell_targets.chain_lightning<4&buff.master_of_the_elements.up&maelstrom<50"
 # Earth Shock to trigger EoGS
 actions.eogs_aoe+="/earth_shock,if=!buff.echoes_of_great_sundering.up"
-# Lava Burst Below 4 targets when Storm Elemental is not up
-actions.eogs_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&(buff.lava_surge.up&!buff.master_of_the_elements.up)"
+# Lava Burst with proc below 4 targets with MotE talent
+actions.eogs_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&buff.lava_surge.up&!buff.master_of_the_elements.up&talent.master_of_the_elements.enabled"
 # Lava Burst with PWave up and a Lava Surge
 actions.eogs_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=buff.lava_surge.up&buff.primordial_wave.up"
 # Lava Burst at 3 targets with hardcast or at 4+ targets with proc and 50+ mael to get MotE buff for EoGS
@@ -135,6 +135,8 @@ actions.eogs_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=(spell_targe
 actions.eogs_aoe+="/earthquake,if=!talent.master_of_the_elements.enabled|buff.stormkeeper.up|maelstrom>=(100-4*spell_targets.chain_lightning)|buff.master_of_the_elements.up|active_enemies>4"
 # Make sure you don't lose a Stormkeeper buff.
 actions.eogs_aoe+="/chain_lightning,if=buff.stormkeeper.remains<3*gcd*buff.stormkeeper.stack"
+# Lava Burst with proc below 4 targets without MotE talent
+actions.eogs_aoe+="/lava_burst,if=buff.lava_surge.up&spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&dot.flame_shock.ticking"
 # Use Elemental Blast against up to 3 targets as long as Storm Elemental is not active.
 actions.eogs_aoe+="/elemental_blast,if=talent.elemental_blast.enabled&spell_targets.chain_lightning<5&(!pet.storm_elemental.active)"
 # Lava Beam filler under Ascendence
@@ -170,8 +172,8 @@ actions.skyb_aoe+="/ascendance,if=talent.ascendance.enabled&(!pet.storm_elementa
 actions.skyb_aoe+="/liquid_magma_totem,if=talent.liquid_magma_totem.enabled"
 # Forcing Chain Lightning filler at 3t with MotE
 actions.skyb_aoe+="/chain_lightning,if=spell_targets.chain_lightning<4&buff.master_of_the_elements.up&maelstrom<50"
-# Lava Burst Below 4 targets when Storm Elemental is not up. Use procs only if MotE talent is not enabled
-actions.skyb_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&buff.lava_surge.up&!buff.master_of_the_elements.up"
+# Lava Burst with proc below 4 targets with MotE talent
+actions.skyb_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=spell_targets.chain_lightning<4&buff.lava_surge.up&!buff.master_of_the_elements.up&talent.master_of_the_elements.enabled"
 # Lava Burst at 3 targets with hardcast or at 4 targets with proc and 50+ mael to get MotE buff
 actions.skyb_aoe+=/lava_burst,target_if=dot.flame_shock.remains,if=(spell_targets.chain_lightning<4|spell_targets.chain_lightning=4&buff.lava_surge.up)&talent.master_of_the_elements.enabled&!buff.master_of_the_elements.up&maelstrom>=50
 # Try to game Earthquake with Master of the Elements buff when fighting 3 targets. Don't overcap Maelstrom!
@@ -180,6 +182,8 @@ actions.skyb_aoe+=/earthquake,if=!talent.master_of_the_elements.enabled|buff.sto
 actions.skyb_aoe+="/lava_burst,target_if=dot.flame_shock.remains,if=buff.lava_surge.up&buff.primordial_wave.up"
 # Make sure you don't lose a Stormkeeper buff.
 actions.skyb_aoe+="/chain_lightning,if=buff.stormkeeper.remains<3*gcd*buff.stormkeeper.stack"
+# Lava Burst with proc below 4 targets without MotE talent
+actions.skyb_aoe+="/lava_burst,if=buff.lava_surge.up&spell_targets.chain_lightning<4&(!pet.storm_elemental.active)&dot.flame_shock.ticking"
 # Use Elemental Blast against up to 3 targets as long as Storm Elemental is not active.
 actions.skyb_aoe+="/elemental_blast,if=talent.elemental_blast.enabled&spell_targets.chain_lightning<4&(!pet.storm_elemental.active)"
 # Lava Beam filler under Ascendence

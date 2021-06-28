@@ -1,0 +1,32 @@
+# Игнеос - Elemental - 2021-06-26 00:31 - EU/Howling Fjord
+# SimC Addon 9.0.5-01
+# Requires SimulationCraft 901-01 or newer
+
+shaman="Игнеос"
+level=60
+race=orc
+region=eu
+server=howling_fjord
+role=spell
+professions=alchemy=172/engineering=88
+talents=2112122
+spec=elemental
+
+covenant="necrolord"
+soulbind="bonesmith_heirmir:10,326514/104:5/326507/95:5/326513/94:5/92:5/326572"
+
+head=,id=178816,gem_id=168638,bonus_id=7213/6652/1501/5884/6646/6935
+neck=,id=178707,gem_id=173129,bonus_id=7389/7359/6652/1540/6646/6935
+shoulder=,id=172327,bonus_id=6991/6649/6647/6758/1532
+back=,id=184778,enchant_id=6204,bonus_id=7187/6652/1498/6646
+chest=,id=183000,enchant_id=6230,bonus_id=7187/6652/1498/6646
+wrist=,id=180114,enchant_id=6220,gem_id=173129,bonus_id=7389/7359/6652/1540/6646/6935
+hands=,id=178798,enchant_id=6205,bonus_id=7209/6652/1501/5878/6646
+waist=,id=178932,gem_id=173129,bonus_id=7375/7359/6652/6935/1540/6646
+legs=,id=178839,bonus_id=7213/6652/1501/5884/6646
+feet=,id=178745,enchant_id=6211,bonus_id=7375/7359/6652/1540/6646
+finger1=,id=178848,enchant_id=6164,gem_id=173127,bonus_id=7389/7359/6652/1540/6646/6935
+finger2=,id=183035,enchant_id=6164,gem_id=173129,bonus_id=7187/6652/1498/6646/6935
+trinket1=,id=178708,bonus_id=7359/6652/7373/1534/6646/6916
+trinket2=,id=184028,bonus_id=7188/6652/1485/6646
+main_hand=,id=178829,enchant_id=6229,bonus_id=7213/6652/1501/5884/6646
