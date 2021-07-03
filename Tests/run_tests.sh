@@ -7,7 +7,7 @@ SIMC=/app/SimulationCraft/simc
 TEST_PROFILES_FOLDER=/apl/Tests/test_profiles
 APL_PATH=/apl/elem-apl.simc
 
-TEST_APLS='eogs_mote_fae eogs_mote_necro eogs_se_fae eogs_se_necro skyb_mote_fae skyb_mote_necro skyb_se_fae skyb_se_necro'
+TEST_APLS='eogs_mote_fae eogs_mote_necro eogs_se_fae eogs_se_necro skyb_mote_fae skyb_mote_necro skyb_se_fae skyb_se_necro sorg_mote_fae sorg_se_fae'
 export SIMC_PARAMS=''
 for apl_name in $TEST_APLS
 do
