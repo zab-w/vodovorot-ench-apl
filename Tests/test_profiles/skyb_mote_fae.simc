@@ -1,6 +1,6 @@
 # Игнеос - Elemental - 2021-06-26 00:28 - EU/Howling Fjord
-# SimC Addon 9.0.5-01
-# Requires SimulationCraft 901-01 or newer
+# SimC Addon 9.1.0-01
+# Requires SimulationCraft 910-01 or newer
 
 shaman="Игнеос"
 level=60
@@ -12,8 +12,8 @@ professions=alchemy=172/engineering=88
 talents=2111122
 spec=elemental
 
-covenant=night_fae
-soulbind=корейн:6,325066/104:7/325067/95:6/325073/94:7/93:6/325069
+covenant="night_fae"
+soulbind="korayn:6,325066/104:7:0/325067/325073/325069/103:6:0/352806/352805"
 
 head=,id=178816,gem_id=168638,bonus_id=7213/6652/1501/5884/6646/6935
 neck=,id=178707,gem_id=173129,bonus_id=7389/7359/6652/1540/6646/6935

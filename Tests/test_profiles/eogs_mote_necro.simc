@@ -1,6 +1,6 @@
 # Игнеос - Elemental - 2021-06-26 00:31 - EU/Howling Fjord
-# SimC Addon 9.0.5-01
-# Requires SimulationCraft 901-01 or newer
+# SimC Addon 9.1.0-01
+# Requires SimulationCraft 910-01 or newer
 
 shaman="Игнеос"
 level=60
@@ -13,7 +13,7 @@ talents=2111122
 spec=elemental
 
 covenant="necrolord"
-soulbind="bonesmith_heirmir:10,326514/104:5/326507/95:5/326513/94:5/92:5/326572"
+soulbind="bonesmith_heirmir:10,326514/104:7:0/326507/95:7:0/326513/326572/103:7:0/350899/350936"
 
 head=,id=178816,gem_id=168638,bonus_id=7213/6652/1501/5884/6646/6935
 neck=,id=178707,gem_id=173129,bonus_id=7389/7359/6652/1540/6646/6935

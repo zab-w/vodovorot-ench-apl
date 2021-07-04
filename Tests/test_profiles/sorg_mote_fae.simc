@@ -1,0 +1,34 @@
+# Игнеос - Elemental - 2021-07-03 13:58 - EU/Howling Fjord
+# SimC Addon 9.1.0-01
+# Requires SimulationCraft 910-01 or newer
+
+shaman="Игнеос"
+level="60"
+race="orc"
+region="eu"
+server="howling_fjord"
+role="spell"
+professions="alchemy=173/engineering=88"
+spec="elemental"
+renown="42"
+talents="2111122"
+
+covenant="night_fae"
+soulbind="korayn:6,325066/104:7:0/325067/325073/325069/103:6:0/352806/352805"
+# conduits_available=102:7/104:7/109:6/110:6/111:7/112:6/117:6/118:6/119:7/120:6/148:7/103:6/100:7/95:6/96:7/97:7/98:6/92:6/93:6/283:6/94:7
+
+head=",id=178816,bonus_id=7213/6652/1501/5884/6646/6935,gem_id=168638"
+neck=",id=178707,bonus_id=7389/7359/6652/1540/6646/6935,gem_id=173129"
+shoulder=",id=178764,bonus_id=7214/6652/1501/5884/6646"
+back=",id=184778,bonus_id=7187/6652/1498/6646,enchant_id=6204"
+chest=",id=183000,bonus_id=7187/6652/1498/6646,enchant_id=6230"
+wrist=",id=180114,bonus_id=7389/7359/6652/1540/6646/6935,enchant_id=6220,gem_id=173129"
+hands=",id=172324,bonus_id=6716/7708/6647/6649/1532"
+waist=",id=178932,bonus_id=7375/7359/6652/6935/1540/6646,gem_id=173129"
+legs=",id=178839,bonus_id=7213/6652/1501/5884/6646"
+feet=",id=178745,bonus_id=7375/7359/6652/1540/6646,enchant_id=6211"
+finger1=",id=178848,bonus_id=7389/7359/6652/1540/6646/6935,enchant_id=6164,gem_id=173127"
+finger2=",id=183035,bonus_id=7187/6652/1498/6646/6935,enchant_id=6164,gem_id=173129"
+trinket1=",id=178708,bonus_id=7359/6652/7373/1534/6646/6916"
+trinket2=",id=184028,bonus_id=7188/6652/1485/6646"
+main_hand=",id=178829,bonus_id=7213/6652/1501/5884/6646,enchant_id=6229"
