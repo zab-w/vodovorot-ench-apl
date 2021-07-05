@@ -209,8 +209,10 @@ actions.single_target+="/frost_shock,if=talent.icefury.enabled&buff.icefury.up&b
 actions.single_target+="/flame_shock,target_if=(!ticking|dot.flame_shock.remains<=gcd|talent.ascendance.enabled&dot.flame_shock.remains<(cooldown.ascendance.remains+buff.ascendance.duration)&cooldown.ascendance.remains<4)&(buff.lava_surge.up|!buff.bloodlust.up)"
 # Get all the Flame Shock up for PWave
 actions.single_target+="/flame_shock,if=buff.primordial_wave.up,target_if=min:dot.flame_shock.remains,cycle_targets=1,target_if=refreshable"
+# Cast EoGS EQ when the next spell can overcap Maelstrom with Ice Fury talent
+actions.single_target+="/earthquake,if=buff.echoes_of_great_sundering.up&talent.icefury.enabled&(maelstrom>=92&talent.master_of_the_elements.enabled&(buff.master_of_the_elements.up|cooldown.lava_burst.remains>0)|(maelstrom>65&talent.elemental_blast.enabled&cooldown.elemental_blast.remains>0&cooldown.lava_burst.remains>0))"
 # Cast Earth Shock when the next spell can overcap Maelstrom with Ice Fury talent
-actions.single_target+="/earth_shock,if=talent.icefury.enabled&(maelstrom>=92&!buff.lava_surge.up|(maelstrom>65&talent.elemental_blast.enabled&cooldown.elemental_blast.remains>0&cooldown.lava_burst.remains>0))"
+actions.single_target+="/earth_shock,if=!buff.echoes_of_great_sundering.up&talent.icefury.enabled&(maelstrom>=92&!buff.lava_surge.up|(maelstrom>65&talent.elemental_blast.enabled&cooldown.elemental_blast.remains>0&cooldown.lava_burst.remains>0))"
 # Cast Ascendence on cooldown
 actions.single_target+="/ascendance,if=talent.ascendance.enabled&(time>=60|buff.bloodlust.up)&(cooldown.lava_burst.remains>0)&(!talent.icefury.enabled|!buff.icefury.up&!cooldown.icefury.up)"
 # Cast Lava Burst on Lava Surge
