@@ -31,6 +31,8 @@ actions+=/ancestral_call,if=!talent.ascendance.enabled|buff.ascendance.up|cooldo
 actions+=/bag_of_tricks,if=!talent.ascendance.enabled|!buff.ascendance.up
 actions+=/feral_spirit
 actions+=/fae_transfusion,if=(talent.ascendance.enabled|runeforge.doom_winds.equipped)&(soulbind.grove_invigoration|soulbind.field_of_blossoms|active_enemies=1)
+actions+=/stormstrike,if=talent.ascendance.enabled&cooldown.ascendance.up
+actions+=/flame_shock,if=talent.ascendance.enabled&dot.flame_shock.remains<(cooldown.ascendance.remains+buff.ascendance.duration)&cooldown.ascendance.remains<4
 actions+=/ascendance,if=raid_event.adds.in>=90|active_enemies>1
 actions+=/windfury_totem,if=runeforge.doom_winds.equipped&buff.doom_winds_debuff.down&(raid_event.adds.in>=60|active_enemies>1)
 # If only one enemy, priority follows the 'single' action list.
@@ -81,7 +83,7 @@ actions.single+=/stormstrike,if=runeforge.doom_winds.equipped&buff.doom_winds.up
 actions.single+=/crash_lightning,if=runeforge.doom_winds.equipped&buff.doom_winds.up
 actions.single+=/ice_strike,if=runeforge.doom_winds.equipped&buff.doom_winds.up
 actions.single+=/sundering,if=runeforge.doom_winds.equipped&buff.doom_winds.up
-actions.single+=/flame_shock,if=!ticking
+actions.single+=/flame_shock,if=!ticking&!buff.doom_winds.up&!buff.ascendance.up
 actions.single+=/vesper_totem
 actions.single+=/frost_shock,if=buff.hailstorm.up
 actions.single+=/earthen_spike
@@ -90,11 +92,11 @@ actions.single+=/chain_lightning,if=buff.stormkeeper.up
 actions.single+=/elemental_blast,if=buff.maelstrom_weapon.stack>=5
 actions.single+=/chain_harvest,if=buff.maelstrom_weapon.stack>=5&raid_event.adds.in>=90
 actions.single+=/lightning_bolt,if=buff.maelstrom_weapon.stack=10
-actions.single+=/stormstrike
+actions.single+=/stormstrike,if=buff.doom_winds_debuff.remains>2|!runeforge.doom_winds.equipped
 actions.single+=/stormkeeper,if=buff.maelstrom_weapon.stack>=5
 actions.single+=/fleshcraft,interrupt=1,if=soulbind.volatile_solvent
 actions.single+=/lava_lash
-actions.single+=/crash_lightning
+actions.single+=/crash_lightning,if=buff.doom_winds_debuff.remains>2|!runeforge.doom_winds.equipped
 actions.single+=/flame_shock,target_if=refreshable
 actions.single+=/frost_shock
 actions.single+=/ice_strike
