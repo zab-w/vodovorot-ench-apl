@@ -5,7 +5,7 @@ find /apl/Tests/boris.simc
 mkdir /html
 SIMC=/app/SimulationCraft/simc
 TEST_PROFILES_FOLDER=/apl/Tests/test_profiles
-APL_PATH=/apl/elem-apl.simc
+APL_PATH=/apl/enhance-apl.simc
 
 TEST_APLS='sorg_fae dw_fae frostwitch_fae bones_fae'
 export SIMC_PARAMS=''
