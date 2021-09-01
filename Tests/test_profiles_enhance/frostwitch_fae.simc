@@ -1,0 +1,38 @@
+# Гаар - Enhancement - 2021-08-20 12:31 - EU/Howling Fjord
+# SimC Addon 9.1.0-01
+# Requires SimulationCraft 910-01 or newer
+
+shaman="Гаар"
+level=60
+race=orc
+region=eu
+server=howling_fjord
+role=attack
+professions=leatherworking=100/inscription=100
+talents=2111133
+spec=enhancement
+
+covenant=night_fae
+soulbind=ния:1,322721/109:9:0/342270/95:9:0/320687/94:9:0/93:9:0/320659/148:9:0/352502/98:9:0/352503
+# soulbind=творец_снов:2,319217/95:9:1/118:8:0/319211/119:9:0/94:9:0/319214/319191/148:9:0/352779/98:9:0/352786
+# soulbind=корейн:6,325066/109:9:1/325067/95:9:0/325073/94:9:0/93:9:0/325069/112:9:0/352800/283:9:0/352805
+# conduits_available=100:8/102:9/103:8/104:8/109:9/110:9/111:8/120:9/148:9/112:9/117:8/118:8/119:9/95:9/97:9/98:9/96:9/92:8/93:9/94:9/283:9
+renown=62
+
+head=,id=186341,gem_id=187310,bonus_id=7188/6652/1485/6646
+neck=",id=178927,gem_id=173130,bonus_id=6994/7451/6649/6647/1559/6935"
+shoulder=,id=186342,gem_id=187296,bonus_id=7189/41/1472/6646
+back=",id=180123,enchant_id=6203,bonus_id=7617/7359/6652/1550/6646"
+chest=,id=186303,enchant_id=6214,gem_id=187302,bonus_id=7187/6652/1498/6646
+tabard=,id=46874
+wrist=,id=186302,enchant_id=6220,gem_id=173128,bonus_id=7187/6652/1498/6646/7576
+hands=,id=186345,bonus_id=7188/6652/1485/6646
+waist=,id=187534,gem_id=187309,bonus_id=1485/6646
+legs=,id=178839,bonus_id=7588/7359/6652/1550/6646
+feet=,id=186306,enchant_id=6211,gem_id=187318,bonus_id=7187/6652/1498/6646
+finger1=,id=178781,enchant_id=6166,gem_id=173128,bonus_id=7622/7359/6652/1566/6646/7576
+finger2=,id=179355,enchant_id=6166,gem_id=173128,bonus_id=7359/6652/7576/7618/1553/6646
+trinket1=,id=179356,bonus_id=7608/7359/6652/1566/6646
+trinket2=,id=178771,bonus_id=7359/6652/7606/1560/6646
+main_hand=,id=186384,enchant_id=6228,bonus_id=7187/6652/1498/6646
+off_hand=,id=178834,enchant_id=6229,bonus_id=7636/7359/6652/1566/6646
