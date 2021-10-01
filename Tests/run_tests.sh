@@ -7,7 +7,7 @@ SIMC=/app/SimulationCraft/simc
 TEST_PROFILES_FOLDER=/apl/Tests/test_profiles
 APL_PATH=/apl/enhance-apl.simc
 
-TEST_APLS='sorg_fae dw_fae frostwitch_fae bones_fae'
+TEST_APLS='sorg_fae dw_fae frostwitch_fae bones_fae dw_fae_koreyn'
 export SIMC_PARAMS=''
 for apl_name in $TEST_APLS
 do
